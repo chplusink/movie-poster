@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <title>The Document and jQuery</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <link rel="stylesheet" href="style.css">
   <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js">
 
   </script>
   <!-- <script type="text/javascript" src='index.js'></script> -->
-  <script type="text/javascript" src='sorted.js'></script>
+  <script type="text/javascript" src='stored.js'></script>
   </head>
   <body>
 
@@ -24,20 +25,24 @@
       </div> -->
 
       <div class="row">
-        <div class="col s4">
+        <div class="col s12 center">
           <h1>Movies!</h1>
 
           <form id='movie-form'>
             <input type="text" id="query" value="">
             <input type="submit" name="" value="Search For Movie Poster">
           </form>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s5">
           <ul id="movies" class='collection js--movie-list'>
 
           </ul>
         </div>
-
-        <div class="col s8">
-          <div id="movie-info">
+        <div class="col s7">
+          <div id="movie-info" class="valign">
 
           </div>
         </div>

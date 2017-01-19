@@ -8,14 +8,15 @@ function addFormEventHandler() {
 
 function handleFormSubmit(event) {
   event.preventDefault()
-  clearList()
+  clearLists()
   findMovies()
-  debugger
+  setTimeout(addInfoEventHandlers,2000)
 }
 
-function clearList() {
+function clearLists() {
   let $movieList = $('.js--movie-list')
   $movieList.html('')
+  movieStuff = []
 }
 
 function findMovies() {
@@ -33,33 +34,53 @@ function findMoviesInfo(data) {
     let movieQueryUrl = baseUrl + 'i=' + movie.imdbID
     $.ajax({
       url: movieQueryUrl,
-      success: storeMovieInfo
+      success: storeAndRenderMovieInfo
     })
   }
   data.Search.forEach(findMovieInfo)
-  movieStuff.forEach(renderMovies)
-
 }
 
-function storeMovieInfo(data) {
-  movieStuff.push({
-    moviePosterLink: data.Poster,
-    movieTitle: data.Title,
-    moviePlot: data.Plot,
-    movieTomato: data.tomatoMeter
-  })
-
-  // renderMovies here
-  // create event handle either or outside ()
+function storeAndRenderMovieInfo(data) {
+  movie = {
+    PosterLink: data.Poster,
+    Title: data.Title,
+    Plot: data.Plot,
+    tomatoMeter: data.tomatoMeter
+  }
+  movieStuff.push(movie)
+  renderMovies(movie)
 }
 
 function renderMovies(movie) {
   let $movieList = $('.js--movie-list')
 
   $movieList.append(`<li class="collection-item">
-  <img src="${movie.moviePosterLink}" alt="${movie.movieTitle}"></img>
-  <h2>${movie.movieTitle}</h2>
+  <p>${movie.Title}</p>
   </li>`)
+}
+
+function addInfoEventHandlers() {
+  $('.collection-item').each(function(i, el) {
+    $(this).click(function(){
+      let movie = movieStuff[i]
+      $('#movie-info').html('')
+      $('#movie-info').append(`<div class="center"><img class="circle responsive-img" src="${movie.PosterLink}" alt="${movie.Title}"></img></div>`)
+      $('#movie-info').append(`<p class="col s12 center">${movie.Plot}</p><h4 class="center">Rotten Tomatoes Score:</h4>
+      <div class="preloader-wrapper small active">
+    <div class="spinner-layer spinner-blue-only">
+    <h1 class="center">${movie.tomatoMeter}</h1>
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>`)
+    })
+  })
+
 }
 
 function showMovieInfo(event) {
