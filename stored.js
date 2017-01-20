@@ -10,7 +10,7 @@ function handleFormSubmit(event) {
   event.preventDefault()
   clearLists()
   findMovies()
-  setTimeout(addInfoEventHandlers,2000)
+  // setTimeout(addInfoEventHandlers, 8000)
 }
 
 function clearLists() {
@@ -20,7 +20,8 @@ function clearLists() {
 }
 
 function findMovies() {
-  const URL = 'http://www.omdbapi.com/?type=movie&'
+  Materialize.toast('Fetching Movies!', 2000)
+  const URL = 'http://www.omdbapi.com/?type=movie&page=1&'
   let moviesUrl = URL + 's=' + $('#query').val().trim().split(' ').join('+')
   $.ajax({
     url: moviesUrl,
@@ -48,10 +49,11 @@ function storeAndRenderMovieInfo(data) {
     tomatoMeter: data.tomatoMeter
   }
   movieStuff.push(movie)
-  renderMovies(movie)
+  renderMovie(movie)
+  addInfoEventHandler(movie)
 }
 
-function renderMovies(movie) {
+function renderMovie(movie) {    //  Called by storeAndRenderMovieInfo
   let $movieList = $('.js--movie-list')
 
   $movieList.append(`<li class="collection-item">
@@ -59,30 +61,24 @@ function renderMovies(movie) {
   </li>`)
 }
 
-function addInfoEventHandlers() {
-  $('.collection-item').each(function(i, el) {
-    $(this).click(function(){
-      let movie = movieStuff[i]
-      $('#movie-info').html('')
-      $('#movie-info').append(`<div class="center"><img class="circle responsive-img" src="${movie.PosterLink}" alt="${movie.Title}"></img></div>`)
-      $('#movie-info').append(`<p class="col s12 center">${movie.Plot}</p><h4 class="center">Rotten Tomatoes Score:</h4>
-      <div class="preloader-wrapper small active">
-    <div class="spinner-layer spinner-blue-only">
-    <h1 class="center">${movie.tomatoMeter}</h1>
-      <div class="circle-clipper left">
-        <div class="circle"></div>
-      </div><div class="gap-patch">
-        <div class="circle"></div>
-      </div><div class="circle-clipper right">
-        <div class="circle"></div>
+function addInfoEventHandler(movie) {   //  Called by storeAndRenderMovieInfo, when renderMovie finishes
+  $('li:last').click(function(){
+    $('#movie-info').html('')
+    $('#movie-info').append(`
+      <div class="center"><img class="responsive-img" src="${movie.PosterLink}" alt="${movie.Title}" style="padding-top: 48px; max-height: 600px; width: auto;"></img></div>
+      <p class="col s12 center">${movie.Plot}</p>
+      <div class="preloader-wrapper small active right row">
+        <h1 class="spinner-layer">${movie.tomatoMeter}</h1>
       </div>
-    </div>
-  </div>`)
-    })
+      <h5 class="center" style="padding-bottom: 48px;">Rotten Tomatoes Score:</h5>
+    `)
+    Materialize.fadeInImage('.responsive-img')
   })
-
+  doneMessage()
 }
 
-function showMovieInfo(event) {
-  $('#movie-info').append('<div>Hi!</div>')
+function doneMessage() {
+  if ($('li:nth-child(10)').length == 1) {
+    Materialize.toast('Done!', 2000)
+  }
 }

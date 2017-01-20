@@ -5,17 +5,16 @@
     <title>The Document and jQuery</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     <link rel="stylesheet" href="style.css">
-  <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js">
-
-  </script>
-  <!-- <script type="text/javascript" src='index.js'></script> -->
-  <script type="text/javascript" src='stored.js'></script>
+    <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    <!-- <script type="text/javascript" src='index.js'></script> -->
+    <script type="text/javascript" src='stored.js'></script>
   </head>
   <body>
 
     <nav>
       <div class="nav-wrapper">
-        <a href="#" class="brand-logo">Movie Lister</a>
+        <a href="#" class="brand-logo center">Movie Stuff Gatherer</a>
       </div>
     </nav>
 
@@ -30,7 +29,7 @@
 
           <form id='movie-form'>
             <input type="text" id="query" value="">
-            <input type="submit" name="" value="Search For Movie Poster">
+            <input type="submit" name="" value="Search For Movie" class="btn-large">
           </form>
         </div>
       </div>
@@ -42,7 +41,7 @@
           </ul>
         </div>
         <div class="col s7">
-          <div id="movie-info" class="valign">
+          <div id="movie-info" class="card">
 
           </div>
         </div>
